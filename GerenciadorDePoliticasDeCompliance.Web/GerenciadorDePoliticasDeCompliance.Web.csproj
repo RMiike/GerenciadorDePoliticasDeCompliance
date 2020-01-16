@@ -25,12 +25,9 @@
 
 
   <ItemGroup>
+    <Folder Include="Models\Enums\" />
     <Folder Include="Models\Login\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <ProjectReference Include="..\GerenciadorDePoliticasDeCompliance.Core\GerenciadorDePoliticasDeCompliance.Core.csproj" />
+    <Folder Include="Models\Politicas\" />
   </ItemGroup>
 
 </Project>
