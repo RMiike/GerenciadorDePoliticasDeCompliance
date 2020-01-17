@@ -1,12 +1,12 @@
 ﻿
 @{
-    ViewData["Title"] = "Cadastro Funcionário";
+    ViewData["Title"] = "Cadastro de Funcionário";
 }
 
 
 <form class="form-horizontal" action="/funcionarios/cadastrar" method="post">
     <fieldset>
-        <legend>Identificaçao do usuário</legend>
+        <legend>@ViewData["Title"]</legend>
         <div class="form-group">
             <label for="inputNome" class="col-lg-2 control-label">Nome</label>
             <div class="col-lg-10">
