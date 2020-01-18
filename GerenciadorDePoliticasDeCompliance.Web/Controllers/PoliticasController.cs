@@ -21,7 +21,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         {
             ListaViewModel lista = new ListaViewModel();
 
-            var comandosql = new SqlCommand(Queries.QUERY_VISUALIZAR_POLITICA);
+            var comandosql = new SqlCommand(Queries.QUERY_LISTAR_POLITICA);
             var dataReader = Conexao.Consultar(comandosql);
             if (dataReader.HasRows)
             {
@@ -37,6 +37,24 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             return View(lista);
         }
 
+
+        public IActionResult Detalhes(int id)
+        {
+            DetalheViewModel lista = new DetalheViewModel();
+
+            var comandosql = new SqlCommand(Queries.QUERY_LISTAR_ID_POLITICA + " '" + id + "'");
+            var dataReader = Conexao.Consultar(comandosql);
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    var titulo = dataReader["Titulo"].ToString();
+                    var texto = dataReader["Texto"].ToString();
+                    lista.Politicas.Add(new PoliticaDoDetalheViewModel(id, titulo, texto));
+                }
+            }
+            return View(lista);
+        }
         public IActionResult Formulario()
         {
             return View();

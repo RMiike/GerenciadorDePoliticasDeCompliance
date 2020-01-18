@@ -1,0 +1,39 @@
+﻿@model GerenciadorDePoliticasDeCompliance.Web.Models.Politicas.DetalheViewModel
+@{
+    ViewData["Title"] = "Detalhes";
+}
+    <div id="page-news">
+        <div class="container">
+            <article>
+
+                @foreach (var item in Model.Politicas)
+                {
+
+
+                    <div class="title_tratamento">
+
+                        <h2>
+                            @Html.DisplayFor(modelitem => item.Titulo)
+                        </h2>
+                    </div>
+
+
+
+
+
+                    <div class="container container-md">
+                        <div class="body-article">
+                            <p>
+                                @Html.DisplayFor(modelitem => item.Texto)
+                            </p>
+                        </div>
+                    </div>
+                }
+            </article>
+
+        </div>
+        <form class="px-4 py-3">
+            <p><a asp-action="Index" class="btn btn-primary">Retornar</a></p>
+
+        </form>
+    </div>
