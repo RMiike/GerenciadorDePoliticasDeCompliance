@@ -16,8 +16,9 @@ namespace GerenciadorDePoliticasDeCompliance.Core.Dominio
 
       
 
-        public Politica(string titulo, string texto)
+        public Politica(int id, string titulo, string texto)
         {
+            Id = id;
             Titulo = titulo;
             Texto = texto;
         }

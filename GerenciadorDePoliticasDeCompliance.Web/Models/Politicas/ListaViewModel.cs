@@ -24,11 +24,17 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Politicas
             Titulo = titulo;
             Data = data;
         }
+        public PoliticaDaListaViewModel(string titulo, string texto, int id)
+        {
+            Id = id;
+            Titulo = titulo;
+            Texto = texto;
+        }
 
         public int Id { get; set; }
         public string Titulo { get; set; }
         public string Data { get; set; }
-
+        public string Texto { get; set; }
 
 
     }

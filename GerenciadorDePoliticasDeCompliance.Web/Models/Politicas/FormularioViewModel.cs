@@ -9,6 +9,17 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Politicas
     public class FormularioViewModel
     {
 
+        public FormularioViewModel()
+        {
+
+        }
+        public FormularioViewModel(int id, string titulo, string texto)
+        {
+            Id = id;
+            Titulo = titulo;
+            Texto = texto;
+        }
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "{0} Campo obrigatório!")]
@@ -19,7 +30,7 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Politicas
 
         public Politica ConverterParaPolitica()
         {
-            Politica politica = new Politica(Titulo, Texto);
+            Politica politica = new Politica(Id, Titulo, Texto);
             return politica;
         }
 

@@ -40,41 +40,92 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
 
         public IActionResult Detalhes(int id)
         {
-            DetalheViewModel lista = new DetalheViewModel();
+            ListaViewModel detalhes = new ListaViewModel();
 
-            var comandosql = new SqlCommand(Queries.QUERY_LISTAR_ID_POLITICA + " '" + id + "'");
+            var comandosql = new SqlCommand(Queries.QUERY_LISTAR_ID_POLITICA);
+            comandosql.Parameters.AddWithValue("@Id", id);
+
             var dataReader = Conexao.Consultar(comandosql);
-            if (dataReader.HasRows)
-            {
-                while (dataReader.Read())
-                {
-                    var titulo = dataReader["Titulo"].ToString();
-                    var texto = dataReader["Texto"].ToString();
-                    lista.Politicas.Add(new PoliticaDoDetalheViewModel(id, titulo, texto));
-                }
-            }
-            return View(lista);
+
+            dataReader.Read();
+            var titulo = dataReader["Titulo"].ToString();
+            var texto = dataReader["Texto"].ToString();
+
+            detalhes.Politicas.Add(new PoliticaDaListaViewModel(titulo, texto, id));
+
+
+            return View(detalhes);
         }
         public IActionResult Formulario()
         {
-            return View();
+            return View(new FormularioViewModel());
         }
 
 
         [HttpPost]
-        public IActionResult Cadastrar(FormularioViewModel modelo)
+        public IActionResult Salvar(FormularioViewModel modelo )
         {
-            Politica politica = modelo.ConverterParaPolitica();
-            var comandosql = new SqlCommand(Queries.QUERY_CADASTRO_POLITICAS);
-            comandosql.Parameters.AddWithValue("@Titulo", politica.Titulo);
-            comandosql.Parameters.AddWithValue("@Texto", politica.Texto);
-            comandosql.Parameters.AddWithValue("@Data", DateTime.Now);
+           
 
+
+            SqlCommand comandosql = null;
+  
+
+            if (modelo.Id == 0)
+            {
+
+                Politica politica = modelo.ConverterParaPolitica();
+                comandosql = new SqlCommand(Queries.QUERY_CADASTRO_POLITICAS);
+
+                comandosql.Parameters.AddWithValue("@Titulo", politica.Titulo);
+                comandosql.Parameters.AddWithValue("@Texto", politica.Texto);
+                comandosql.Parameters.AddWithValue("@Data", DateTime.Now);
+            }
+            else
+            {
+                Politica politica = modelo.ConverterParaPolitica();
+                comandosql = new SqlCommand(Queries.QUERY_ATUALIZAR_POLITICA);
+
+                comandosql.Parameters.AddWithValue("@Id", modelo.Id);
+                comandosql.Parameters.AddWithValue("@Titulo", politica.Titulo);
+                comandosql.Parameters.AddWithValue("@Texto", politica.Texto);
+                comandosql.Parameters.AddWithValue("@Data", DateTime.Now);
+            }
 
             Conexao.ExecutarQuery(comandosql);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
+        public IActionResult Edicao(int id)
+        {
+            var comandosql = new SqlCommand(Queries.QUERY_LISTAR_ID_POLITICA);
+            comandosql.Parameters.AddWithValue("@Id", id);
+            var dataReader = Conexao.Consultar(comandosql);
+            ListaViewModel detalhes = new ListaViewModel();
+            dataReader.Read();
+            var titulo = dataReader["Titulo"].ToString();
+            var texto = dataReader["Texto"].ToString();
+
+            FormularioViewModel formulario = new FormularioViewModel(id, titulo, texto);
+
+            return View("Formulario", formulario);
+        }
+
+        public IActionResult Deletar(int id)
+        {
+            var comandosql = new SqlCommand(Queries.QUERY_DELETAR_POLITICA);
+            comandosql.Parameters.AddWithValue("@Id", id);
+            Conexao.ExecutarQuery(comandosql);
+
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Assinar()
+        {
+
+            return View("Index");
+        }
     }
 }

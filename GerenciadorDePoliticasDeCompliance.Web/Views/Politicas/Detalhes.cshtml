@@ -1,39 +1,41 @@
-﻿@model GerenciadorDePoliticasDeCompliance.Web.Models.Politicas.DetalheViewModel
+﻿@model GerenciadorDePoliticasDeCompliance.Web.Models.Politicas.ListaViewModel
 @{
     ViewData["Title"] = "Detalhes";
 }
+@foreach (var item in Model.Politicas)
+{
     <div id="page-news">
         <div class="container">
             <article>
 
-                @foreach (var item in Model.Politicas)
-                {
+                <input type="hidden" value="item.Id"/>
+
+                <div class="title_tratamento">
+
+                    <h2>
+                        @Html.DisplayFor(modelitem => item.Titulo)
+                    </h2>
+                </div>
 
 
-                    <div class="title_tratamento">
 
-                        <h2>
-                            @Html.DisplayFor(modelitem => item.Titulo)
-                        </h2>
+
+
+                <div class="container container-md">
+                    <div class="body-article">
+                        <p>
+                            @Html.DisplayFor(modelitem => item.Texto)
+                        </p>
                     </div>
+                </div>
 
-
-
-
-
-                    <div class="container container-md">
-                        <div class="body-article">
-                            <p>
-                                @Html.DisplayFor(modelitem => item.Texto)
-                            </p>
-                        </div>
-                    </div>
-                }
             </article>
 
         </div>
         <form class="px-4 py-3">
-            <p><a asp-action="Index" class="btn btn-primary">Retornar</a></p>
-
+            <a asp-action="Index" class="btn btn-primary">Retornar</a>
+            <a href="/Politicas/edicao/@item.Id" class="btn btn-primary">Editar</a>
+            <a href="/Politicas/deletar/@item.Id" class="btn btn-danger">Deletar</a>
+            <a href="/Politicas/assinar/@item.Id" class="btn btn-primary">Assinar</a>
         </form>
-    </div>
+    </div>  }
