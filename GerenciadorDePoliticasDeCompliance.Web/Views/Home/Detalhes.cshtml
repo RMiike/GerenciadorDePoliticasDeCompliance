@@ -1,6 +1,9 @@
 ﻿@model GerenciadorDePoliticasDeCompliance.Web.Models.Politicas.ListaViewModel
+
+
 @{  
     ViewData["Title"] = "Detalhes";
+    
 }
 @foreach (var item in Model.Politicas)
 {
@@ -8,8 +11,8 @@
         <div class="container">
             <article>
 
-                <input type="hidden" value="item.Id"/>
-
+                <input type="hidden" value="@item.Id"/>
+             
                 <div class="title_tratamento">
 
                     <h2>
@@ -35,7 +38,7 @@
         <form class="px-4 py-3">
             <a asp-action="Index" class="btn btn-primary">Retornar</a>
             
-            <a href="/Politicas/edicao/@item.Id" class="btn btn-primary">Editar</a>
-            <a href="/Politicas/deletar/@item.Id" class="btn btn-danger">Deletar</a>
+ 
+            <a href="/Politicas/assinar/@item.Id" class="btn btn-primary">Assinar</a>
         </form>
     </div>  }

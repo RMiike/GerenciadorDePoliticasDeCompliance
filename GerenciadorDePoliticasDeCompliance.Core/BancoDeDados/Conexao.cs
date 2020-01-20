@@ -51,5 +51,6 @@ namespace GerenciadorDePoliticasDeCompliance.Core.BancoDeDados
             return dataReader;
 
         }
+
     }
 }

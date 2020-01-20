@@ -1,10 +1,62 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model GerenciadorDePoliticasDeCompliance.Web.Models.Politicas.ListaViewModel;
+
+
+@{
+    ViewData["Title"] = "Políticas de Compiance da Wiz";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+ 
+        <table class="table table-striped table-hover">
+            <thead>
+                @if (Model.Politicas.Count() == 0)
+                {
+                    <h1>Não há politicas</h1>
+                }
+                else
+                {
+                    <tr class="bg-dark">
+                        <th>
+                            Título
+
+                        </th>
+
+                        <th>
+                            Data
+                        </th>
+  
+                        <td>
+                            Assinar
+                        </td>
+                    </tr>
+
+
+                    @foreach (var item in Model.Politicas)
+                    {
+
+                        <tr>
+                            <td>
+                                <a href="/Home/Detalhes/@item.Id">
+                                    @Html.DisplayFor(modelitem => item.Titulo)
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Data)
+                            </td>
+                      
+                            <td>
+                                <a href="/Home/assinar/@item.Id" class="btn btn-danger">Assinar</a>
+                            </td>
+
+
+                        </tr>
+                    }
+                }
+            </thead>
+        </table>
+    </div>
 </div>
-<p><a  asp-controller="Funcionarios" asp-action="Index" class="btn btn-primary">Cadastro</a></p>
-<p><a asp-controller="Politicas" asp-action="Index" class="btn btn-primary">Politcias</a></p>
+

@@ -6,12 +6,18 @@ using System.Data;
 using System;
 using System.Collections.Generic;
 using GerenciadorDePoliticasDeCompliance.Core.Dominio;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GerenciadorDePoliticasDeCompliance.Controllers
 {
+
+
+    [Authorize(Roles = "Administrador")]
     public class PoliticasController : Controller
     {
         private Conexao Conexao { get; set; }
+
+
         public PoliticasController()
         {
             Conexao = new Conexao();
@@ -37,7 +43,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             return View(lista);
         }
 
-
+       
         public IActionResult Detalhes(int id)
         {
             ListaViewModel detalhes = new ListaViewModel();
@@ -56,6 +62,9 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
 
             return View(detalhes);
         }
+
+
+
         public IActionResult Formulario()
         {
             return View(new FormularioViewModel());
@@ -63,20 +72,15 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
 
 
         [HttpPost]
-        public IActionResult Salvar(FormularioViewModel modelo )
+        public IActionResult Salvar(FormularioViewModel modelo)
         {
-           
-
 
             SqlCommand comandosql = null;
-  
-
+            
             if (modelo.Id == 0)
             {
-
                 Politica politica = modelo.ConverterParaPolitica();
                 comandosql = new SqlCommand(Queries.QUERY_CADASTRO_POLITICAS);
-
                 comandosql.Parameters.AddWithValue("@Titulo", politica.Titulo);
                 comandosql.Parameters.AddWithValue("@Texto", politica.Texto);
                 comandosql.Parameters.AddWithValue("@Data", DateTime.Now);
@@ -85,7 +89,6 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             {
                 Politica politica = modelo.ConverterParaPolitica();
                 comandosql = new SqlCommand(Queries.QUERY_ATUALIZAR_POLITICA);
-
                 comandosql.Parameters.AddWithValue("@Id", modelo.Id);
                 comandosql.Parameters.AddWithValue("@Titulo", politica.Titulo);
                 comandosql.Parameters.AddWithValue("@Texto", politica.Texto);
@@ -102,7 +105,6 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             var comandosql = new SqlCommand(Queries.QUERY_LISTAR_ID_POLITICA);
             comandosql.Parameters.AddWithValue("@Id", id);
             var dataReader = Conexao.Consultar(comandosql);
-            ListaViewModel detalhes = new ListaViewModel();
             dataReader.Read();
             var titulo = dataReader["Titulo"].ToString();
             var texto = dataReader["Texto"].ToString();
@@ -111,6 +113,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
 
             return View("Formulario", formulario);
         }
+
 
         public IActionResult Deletar(int id)
         {
@@ -122,10 +125,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Assinar()
-        {
 
-            return View("Index");
-        }
+      
     }
 }
