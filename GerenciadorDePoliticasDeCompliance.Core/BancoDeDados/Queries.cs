@@ -11,7 +11,8 @@
         public static string QUERY_LISTAR_ID_POLITICA = "select * from Politica where Id = @Id";
         public static string QUERY_DELETAR_POLITICA = "delete from Politica where Id = @Id";
         public static string QUERY_AUTENTICAR_USUARIO = "select top 1 * from Usuario where Email = @Email";
-        public static string QUERY_ASSINAR_POLITICA = "update AssinaturaPolitica set IdFuncionario = @IdFuncionario, IdPolitica = @IdPolitica";
+        public static string QUERY_VERIFICAR_ID_FUNCIONARIO = "select top 1 * from Funcionario where IdUsuario = @IdUsuario";
+        public static string QUERY_ASSINAR_POLITICA = "insert into AssinaturaPolitica (IdFuncionario, IdPolitica, Data) values (@IdFuncionario, @IdPolitica, @Data)";
 
     }
 }

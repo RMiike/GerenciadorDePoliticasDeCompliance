@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using GerenciadorDePoliticasDeCompliance.Web.Models.Politicas;
 using System.Data.SqlClient;
 using GerenciadorDePoliticasDeCompliance.Core.BancoDeDados;
+using System.Security.Claims;
 
 namespace GerenciadorDePoliticasDeCompliance.Controllers
 {
@@ -20,7 +21,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         private Conexao Conexao { get; set; }
 
 
- 
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -66,28 +67,29 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             return View(detalhes);
         }
 
-      /*TODO  public IActionResult Assinar(Lis)
+        public IActionResult Assinar(int id)
         {
 
-            var comandosql = new SqlCommand(Queries.QUERY_AUTENTICAR_USUARIO);
+            var claim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier);
+            var comandosql = new SqlCommand(Queries.QUERY_VERIFICAR_ID_FUNCIONARIO);
+            comandosql.Parameters.AddWithValue("@IdUsuario", claim.Value);
+            var dataRead = Conexao.Consultar(comandosql);
+            dataRead.Read();
+            var idfuncionario = int.Parse(dataRead["Id"].ToString());
+            Conexao._conexao.Close();
+            comandosql = new SqlCommand(Queries.QUERY_ASSINAR_POLITICA);
+            comandosql.Parameters.AddWithValue("@IdPolitica", id);
+            comandosql.Parameters.AddWithValue("@IdFuncionario", idfuncionario);
+            comandosql.Parameters.AddWithValue("@Data", DateTime.Now);
+            Conexao.ExecutarQuery(comandosql);
 
-            comandosql.Parameters.AddWithValue("@Email", modelo.Email);
+            return RedirectToAction("Index");
+        }
 
-            var dataReader = Conexao.Consultar(comandosql);
-            if (dataReader.HasRows)
-            {
 
-                comandosql.Parameters.AddWithValue("@Email", modelo.Email);
-                dataReader.Read();
-                var id = int.Parse(dataReader["Id"].ToString());
-                var email = dataReader["Email"].ToString();
-                var senha = dataReader["Senha"].ToString();
-                var perfil = (PerfilDeUsuario)dataReader["IdPerfil"];
-
-                Usuario usuario = new Usuario(id, perfil, email, senha);
-
-                if (modelo.Senha == usuario.Senha)
-                    ListaViewModel detalhes = new ListaViewModel();
+        public IActionResult Assinantes(int id)
+        {
+            ListaViewModel detalhes = new ListaViewModel();
 
             var comandosql = new SqlCommand(Queries.QUERY_LISTAR_ID_POLITICA);
             comandosql.Parameters.AddWithValue("@Id", id);
@@ -101,10 +103,8 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             detalhes.Politicas.Add(new PoliticaDaListaViewModel(titulo, texto, id));
 
 
-            return View(detalhes);
-
-        }*/
-
+            return RedirectToAction("Index", "Funcionarios");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

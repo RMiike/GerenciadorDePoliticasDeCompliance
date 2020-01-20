@@ -36,5 +36,6 @@ namespace GerenciadorDePoliticasDeCompliance.Models.Funcionarios
             Usuario usuario = new Usuario(PerfilDeUsuario.Funcionario, Email, Senha);
             return usuario;
         }
+        
     }
 }
