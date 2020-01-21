@@ -35,7 +35,7 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Politicas
         public string Titulo { get; set; }
         public string Data { get; set; }
         public string Texto { get; set; }
-
+        public bool EstaAssinada { get; set; }
 
     }
 }

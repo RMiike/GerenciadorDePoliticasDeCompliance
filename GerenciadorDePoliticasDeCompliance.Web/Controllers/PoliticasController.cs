@@ -100,6 +100,8 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             return RedirectToAction("Index");
         }
 
+
+        
         public IActionResult Edicao(int id)
         {
             var comandosql = new SqlCommand(Queries.QUERY_LISTAR_ID_POLITICA);

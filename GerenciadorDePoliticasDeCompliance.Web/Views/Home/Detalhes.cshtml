@@ -1,10 +1,7 @@
 ﻿@model GerenciadorDePoliticasDeCompliance.Web.Models.Politicas.ListaViewModel
 
 
-@{  
-    ViewData["Title"] = "Detalhes";
-    
-}
+
 @foreach (var item in Model.Politicas)
 {
     <div id="page-news">
@@ -35,7 +32,7 @@
             </article>
 
         </div>
-        <form class="px-4 py-3">
+        <form class="px-4 py-3" method="post">
             <a asp-action="Index" class="btn btn-primary">Retornar</a>
             
  

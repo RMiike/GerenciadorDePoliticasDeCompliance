@@ -27,10 +27,12 @@
                         <th>
                             Data
                         </th>
-  
-                        <td>
-                            Assinar
-                        </td>
+  <th>
+
+  </th>
+                        <th>
+                            Politicas Assinadas
+                        </th>
                     </tr>
 
 
@@ -46,11 +48,15 @@
                             <td>
                                 @Html.DisplayFor(modelitem => item.Data)
                             </td>
-                      
-                            <td>
-                                <a href="/Home/assinar/@item.Id" class="btn btn-danger">Assinar</a>
-                            </td>
+                      <th>
 
+                      </th>
+                    
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" aria-label="...">
+                                </div>
+                            </td>
 
                         </tr>
                     }

@@ -4,6 +4,7 @@ using GerenciadorDePoliticasDeCompliance.Models.Funcionarios;
 using GerenciadorDePoliticasDeCompliance.Web.Models.Funcionarios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace GerenciadorDePoliticasDeCompliance.Controllers
@@ -29,12 +30,13 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             {
                 while (dataReader.Read())
                 {
+                    var id = int.Parse(dataReader["Id"].ToString());
                     var nome = dataReader["Nome"].ToString();
                     var cpf = int.Parse(dataReader["CPF"].ToString());
                     var matricula = int.Parse(dataReader["Matricula"].ToString());
                     var email = dataReader["Email"].ToString();
 
-                    lista.Funcionarios.Add(new FuncionarioDaListaViewModel(nome, cpf, matricula, email));
+                    lista.Funcionarios.Add(new FuncionarioDaListaViewModel(id, nome, cpf, matricula, email));
 
 
                 }
@@ -72,10 +74,54 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             Conexao.ExecutarQuery(comandosql);
 
 
-            return RedirectToAction("Index","Login");
+            return RedirectToAction("Index", "Login");
         }
 
-       
+        public IActionResult Assinantes(int id)
+        {
+            ListaViewModel listaidfuncionarios = new ListaViewModel();
+            List<string> idfuncionarios = new List<string>();
+
+            var comandosql = new SqlCommand(Queries.QUERY_LISTAR_IDPOLITICA_ASSINANTES);
+            comandosql.Parameters.AddWithValue("@IdPolitica", id);
+
+            var dataReader = Conexao.Consultar(comandosql);
+
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+
+                    var id2 = dataReader["IdFuncionario"].ToString();
+
+                    idfuncionarios.Add(id2);
+                }
+            }
+            Conexao._conexao.Close();
+
+            foreach (string obj in idfuncionarios)
+            {
+
+                comandosql = new SqlCommand(Queries.QUERY_LISTAR_ID_FUNCIONARIOS);
+                comandosql.Parameters.AddWithValue("@Id", obj);
+                dataReader = Conexao.Consultar(comandosql);
+
+                dataReader.Read();
+                var idfun = int.Parse(dataReader["Id"].ToString());
+                var nome = dataReader["Nome"].ToString();
+                var cpf = int.Parse(dataReader["CPF"].ToString());
+                var matricula = int.Parse(dataReader["Matricula"].ToString());
+                var email = dataReader["Email"].ToString();
+                listaidfuncionarios.Funcionarios.Add(new FuncionarioDaListaViewModel(idfun, nome, cpf, matricula, email));
+                Conexao._conexao.Close();
+            }
+
+
+            return View("Index", listaidfuncionarios);
+        }
+
+
+
 
     }
 }

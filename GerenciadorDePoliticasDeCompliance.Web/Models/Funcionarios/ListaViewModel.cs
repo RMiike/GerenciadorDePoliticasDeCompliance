@@ -19,7 +19,9 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Funcionarios
 
     public class FuncionarioDaListaViewModel
     {
-        public FuncionarioDaListaViewModel(string nome, int cPF, int matricula, string email)
+     
+
+        public FuncionarioDaListaViewModel(int id, string nome, int cPF, int matricula, string email)
         {
             Nome = nome;
             CPF = cPF;
@@ -27,6 +29,7 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Funcionarios
             Email = email;
         }
 
+        public int Id { get; set; }
         public string Nome { get; set; }
 
         public int CPF { get; set; }

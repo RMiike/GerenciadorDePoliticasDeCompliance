@@ -27,6 +27,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         }
 
 
+     
 
         [HttpPost]
         public async Task<IActionResult> Acessar(LoginViewModel modelo)
@@ -51,7 +52,6 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
 
                 if (modelo.Senha == usuario.Senha)
                 {
-
                   
                     var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));

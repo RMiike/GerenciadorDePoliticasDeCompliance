@@ -67,6 +67,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             return View(detalhes);
         }
 
+        [HttpPost]
         public IActionResult Assinar(int id)
         {
 
@@ -87,24 +88,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         }
 
 
-        public IActionResult Assinantes(int id)
-        {
-            ListaViewModel detalhes = new ListaViewModel();
-
-            var comandosql = new SqlCommand(Queries.QUERY_LISTAR_ID_POLITICA);
-            comandosql.Parameters.AddWithValue("@Id", id);
-
-            var dataReader = Conexao.Consultar(comandosql);
-
-            dataReader.Read();
-            var titulo = dataReader["Titulo"].ToString();
-            var texto = dataReader["Texto"].ToString();
-
-            detalhes.Politicas.Add(new PoliticaDaListaViewModel(titulo, texto, id));
-
-
-            return RedirectToAction("Index", "Funcionarios");
-        }
+      
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
