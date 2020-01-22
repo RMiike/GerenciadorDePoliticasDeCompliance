@@ -21,9 +21,5 @@
         public string Email { get; set; }
 
         public Usuario Usuario { get; set; }
-
-
-
-
     }
 }

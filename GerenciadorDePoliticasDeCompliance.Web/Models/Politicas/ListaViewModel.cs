@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GerenciadorDePoliticasDeCompliance.Web.Models.Politicas
 {
@@ -9,11 +6,10 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Politicas
     {
         public List<PoliticaDaListaViewModel> Politicas { get; set; }
         public ListaViewModel()
-        {   
-        Politicas = new List<PoliticaDaListaViewModel>();
-            
-        }
+        {
+            Politicas = new List<PoliticaDaListaViewModel>();
 
+        }
     }
 
     public class PoliticaDaListaViewModel
@@ -35,6 +31,6 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Politicas
         public string Titulo { get; set; }
         public string Data { get; set; }
         public string Texto { get; set; }
-     
+
     }
 }

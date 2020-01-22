@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Text;
+﻿using System.Data.SqlClient;
 
 namespace GerenciadorDePoliticasDeCompliance.Core.BancoDeDados
 {
@@ -13,12 +9,10 @@ namespace GerenciadorDePoliticasDeCompliance.Core.BancoDeDados
 
         private void Conectar()
         {
-
             if (_conexao.State == System.Data.ConnectionState.Closed)
             {
                 _conexao.Open();
             }
-
         }
 
         public int ExecutarQuery(SqlCommand comandosql)
@@ -39,8 +33,6 @@ namespace GerenciadorDePoliticasDeCompliance.Core.BancoDeDados
                 _conexao.Close();
 
             }
-
-                                
         }
       
         public SqlDataReader Consultar(SqlCommand comandosql)
@@ -51,6 +43,5 @@ namespace GerenciadorDePoliticasDeCompliance.Core.BancoDeDados
             return dataReader;
 
         }
-
     }
 }

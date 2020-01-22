@@ -24,7 +24,6 @@ namespace GerenciadorDePoliticasDeCompliance.Models.Funcionarios
         [Required(ErrorMessage = "{0} Campo obrigatório!")]
         public string Senha { get; set; }
 
-
         public Funcionario ConverterParaFuncionario()
         {
             Funcionario funcionario = new Funcionario(Nome, CPF, Matricula, Email);
@@ -36,6 +35,5 @@ namespace GerenciadorDePoliticasDeCompliance.Models.Funcionarios
             Usuario usuario = new Usuario(PerfilDeUsuario.Funcionario, Email, Senha);
             return usuario;
         }
-        
     }
 }

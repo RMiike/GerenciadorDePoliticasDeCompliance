@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,6 +6,7 @@
     <title>@ViewData["Title"] - GerenciadorDePoliticasDeCompliance</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-flatly.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="icon" type="image/png" href="~/imagens/favicon-32x32.png" />
 </head>
 <body>
     <header>
@@ -33,36 +32,23 @@
                         {
                             @if (Context.User.IsInRole("Administrador"))
                             {
-
-
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Funcionarios" asp-action="Index">Funcionarios</a>
-
                                 </li>
-
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Politicas" asp-action="Index">Politicas</a>
                                 </li>
-
-
-
                             }
                             @if (Context.User.IsInRole("Funcionario"))
                             {
-
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Politicas</a>
                                 </li>
-
                             }
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Deslogar">Deslogar</a>
                             </li>
-
-
                         }
-
-
                     </ul>
                 </div>
             </div>
@@ -70,15 +56,12 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-
             @RenderBody()
-
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - GerenciadorDePoliticasDeCompliance - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - GerenciadorDePoliticasDeCompliance - <a href="https://github.com/RMiike/">Renato Miike Alves</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -14,9 +14,6 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
     public class FuncionariosController : Controller
     {
         private Conexao Conexao { get; set; }
-
-
-
         public FuncionariosController()
         {
             Conexao = new Conexao();
@@ -35,10 +32,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
                     var cpf = int.Parse(dataReader["CPF"].ToString());
                     var matricula = int.Parse(dataReader["Matricula"].ToString());
                     var email = dataReader["Email"].ToString();
-
                     lista.Funcionarios.Add(new FuncionarioDaListaViewModel(id, nome, cpf, matricula, email));
-
-
                 }
             }
             return View(lista);
@@ -56,15 +50,11 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         {
             Funcionario funcionario = modelo.ConverterParaFuncionario();
             Usuario usuario = modelo.ConverterParaUsuario();
-
-
-
             var comandosql = new SqlCommand(Queries.QUERY_CADASTRO_USUARIO);
             comandosql.Parameters.AddWithValue("@Email", usuario.Email);
             comandosql.Parameters.AddWithValue("@Senha", usuario.Senha);
             comandosql.Parameters.AddWithValue("@IdPerfil", (int)usuario.Perfil);
             int idusuario = Conexao.ExecutarQuery(comandosql);
-
             comandosql = new SqlCommand(Queries.QUERY_CADASTRO_FUNCIONARIO);
             comandosql.Parameters.AddWithValue("@Nome", funcionario.Nome);
             comandosql.Parameters.AddWithValue("@CPF", funcionario.CPF);
@@ -72,8 +62,6 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             comandosql.Parameters.AddWithValue("@Email", funcionario.Email);
             comandosql.Parameters.AddWithValue("@IdUsuario", idusuario);
             Conexao.ExecutarQuery(comandosql);
-
-
             return RedirectToAction("Index", "Login");
         }
 
@@ -81,12 +69,9 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         {
             ListaViewModel listaidfuncionarios = new ListaViewModel();
             List<string> idfuncionarios = new List<string>();
-
             var comandosql = new SqlCommand(Queries.QUERY_LISTAR_IDPOLITICA_ASSINANTES);
             comandosql.Parameters.AddWithValue("@IdPolitica", id);
-
             var dataReader = Conexao.Consultar(comandosql);
-
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
@@ -98,7 +83,6 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
                 }
             }
             Conexao._conexao.Close();
-
             foreach (string obj in idfuncionarios)
             {
 
@@ -115,13 +99,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
                 listaidfuncionarios.Funcionarios.Add(new FuncionarioDaListaViewModel(idfun, nome, cpf, matricula, email));
                 Conexao._conexao.Close();
             }
-
-
             return View("Index", listaidfuncionarios);
         }
-
-
-
-
     }
 }

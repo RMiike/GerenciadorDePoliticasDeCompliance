@@ -3,50 +3,38 @@
     ViewData["Title"] = "Detalhes";
 }
 @foreach (var item in Model.Politicas)
-
-{<section>
-    <section class="container-fluid col-xl-9 justify-content-center h-100 ">
-        <section class="form-container shadow-lg" class="col-12 col-sm-6 col-md-3">
-            <div id="page-news">
-                <div class="container">
-                    <article>
-
-                        <input type="hidden" value="item.Id" />
-
-                        <div class="title_tratamento">
-
-                            <h2 class="text-center">
-                                @Html.DisplayFor(modelitem => item.Titulo)
-                            </h2>
-                        </div>
-
-
-
-
-
-                        <div class="container container-md">
-                            <div class="body-article">
-                                <p class="text-justify">
-                                    @Html.DisplayFor(modelitem => item.Texto)
-                                </p>
+{
+    <section>
+        <section class="container-fluid col-xl-9 justify-content-center h-100 ">
+            <section class="form-container shadow-lg" class="col-12 col-sm-6 col-md-3" style="border-radius:6px">
+                <div id="page-news">
+                    <div class="container">
+                        <article>
+                            <input type="hidden" value="item.Id" />
+                            <div class="title_tratamento">
+                                <h2 class="text-center mb-4">
+                                    @Html.DisplayFor(modelitem => item.Titulo)
+                                </h2>
                             </div>
-                        </div>
-
-                    </article>
-
+                            <div class="container container-md">
+                                <div class="body-article">
+                                    <p class="text-justify">
+                                        @Html.DisplayFor(modelitem => item.Texto)
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <form class="px-4 py-3 mb-4">
+                        <a asp-action="Index" class="btn btn-default ml-2 mr-2">Retornar</a>
+                        <a href="/Politicas/edicao/@item.Id" class="btn btn-primary ml-2 mr-2">Editar</a>
+                        <a href="/Funcionarios/Assinantes/@item.Id" class="btn btn-primary ml-2 mr-2">Assinantes</a>
+                    </form>
                 </div>
-                <form class="px-4 py-3">
-                    <a asp-action="Index" class="btn btn-primary">Retornar</a>
-
-                    <a href="/Politicas/edicao/@item.Id" class="btn btn-primary">Editar</a>
-                    <a href="/Funcionarios/Assinantes/@item.Id" class="btn btn-primary">Assinantes</a>
-                </form>
-            </div>
-            <input type="hidden" asp-controller="Politicas" asp-action="deletar/@item.Id" pattern="Deletar" />
-
+                <input type="hidden" asp-controller="Politicas" asp-action="deletar/@item.Id" pattern="Deletar" />
+            </section>
         </section>
     </section>
-</section>
 }
 
 

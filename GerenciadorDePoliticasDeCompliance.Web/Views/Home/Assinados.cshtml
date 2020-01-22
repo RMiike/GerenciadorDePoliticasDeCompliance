@@ -1,11 +1,11 @@
 ﻿@model GerenciadorDePoliticasDeCompliance.Web.Models.Politicas.ListaViewModel;
 
 @{
-    ViewData["Title"] = "Políticas de Compiance da Wiz";
+    ViewData["Title"] = "Políticas Assinadas";
 }
 <section>
-    <section class="container-fluid col-xl-9 justify-content-center h-100 ">
-        <section class="form-container shadow-lg" class="col-12 col-sm-6 col-md-3 mb-4" style="border-radius:6px">
+    <section class="container-fluid col-xl-9 justify-content-center h-100 mb-4 ">
+        <section class="form-container shadow-lg" class="col-12 col-sm-6 col-md-3 " style="border-radius:6px">
             <h1 class="text-center mb-4">@ViewData["Title"]</h1>
             <div>
                 <div>
@@ -13,7 +13,7 @@
                         <thead>
                             @if (Model.Politicas.Count() == 0)
                             {
-                                <h1>Não há politicas</h1>
+                                <h1>Não há políticas assinadas</h1>
                             }
                             else
                             {
@@ -30,11 +30,9 @@
                                 @foreach (var item in Model.Politicas)
                                 {
                                     <tr>
-
                                         <td>
-                                            <a href="/Home/Detalhes/@item.Id">
-                                                @Html.DisplayFor(modelitem => item.Titulo)
-                                            </a>
+                                            @Html.DisplayFor(modelitem => item.Titulo)
+
                                         </td>
                                         <td class="text-center">
                                             @Html.DisplayFor(modelitem => item.Data)
@@ -47,7 +45,7 @@
                 </div>
             </div>
             <p class="text-center">
-                <a href="/Home/Assinados" class="btn btn-primary mb-4">Políticas Assinadas</a>
+                <a href="/Home/Index" class="btn btn-primary mb-4">Retornar</a>
             </p>
         </section>
     </section>

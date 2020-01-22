@@ -1,14 +1,10 @@
 ﻿using GerenciadorDePoliticasDeCompliance.Core.Dominio;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 
 namespace GerenciadorDePoliticasDeCompliance.Web.Models.Politicas
 {
     public class FormularioViewModel
     {
-
         public FormularioViewModel()
         {
 

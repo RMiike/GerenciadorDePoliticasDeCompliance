@@ -1,63 +1,48 @@
 ﻿@model GerenciadorDePoliticasDeCompliance.Web.Models.Politicas.ListaViewModel
 
-
-
 <section>
     <section class="container-fluid col-xl-9 justify-content-center h-100 ">
-
-        <section class="form-container shadow-lg" class="col-12 col-sm-6 col-md-3">
+        <section class="form-container shadow-lg" class="col-12 col-sm-6 col-md-3" style="border-radius:6px">
             @foreach (var item in Model.Politicas)
             {
                 <div id="page-news">
                     <div class="container">
                         <article>
-
                             <input type="hidden" value="@item.Id" />
 
                             <div class="title_tratamento">
-
-                                <h2 class="text-center">
+                                <h2 class="text-center mb-4">
                                     @Html.DisplayFor(modelitem => item.Titulo)
                                 </h2>
                             </div>
-
-
-
-
-
                             <div class="container container-md">
                                 <div class="body-article">
-                                    <p>
+                                    <p class="text-justify">
                                         @Html.DisplayFor(modelitem => item.Texto)
                                     </p>
                                 </div>
                             </div>
-
                         </article>
-
                     </div>
                     <form action="/home/assinar/@item.Id" method="post">
-                        <div>
+                        <div class="text-right">
                             <input type="checkbox" required id="aceitaCondicoes" name="aceitar" value="true" />
                             <label for="aceitaCondicoes">
-                                Concordo com os termos da Política de Compliance  ?
+                                Concordo com os termos da Política de Compliance
                             </label>
-                            <button type="submit" class="btn-primary">
+                            <button type="submit" class="btn btn-primary mb-4 ml-4 mr-4">
                                 Concordar
                             </button>
                         </div>
                     </form>
-                </div>}
-
-
+                </div>
+            }
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-danger col-lg-12" role="alert">
                     @ViewData["Assinada"] Política já se encontra assinada
                 </div>
             }
-
-
         </section>
     </section>
 </section>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace GerenciadorDePoliticasDeCompliance.Core.Dominio
 {
     public class Usuario
@@ -31,6 +28,5 @@ namespace GerenciadorDePoliticasDeCompliance.Core.Dominio
         public PerfilDeUsuario Perfil { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
-
     }
 }
