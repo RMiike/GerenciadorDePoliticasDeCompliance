@@ -76,10 +76,10 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         {
 
             SqlCommand comandosql = null;
-            
+            Politica politica = modelo.ConverterParaPolitica();
             if (modelo.Id == 0)
             {
-                Politica politica = modelo.ConverterParaPolitica();
+                
                 comandosql = new SqlCommand(Queries.QUERY_CADASTRO_POLITICAS);
                 comandosql.Parameters.AddWithValue("@Titulo", politica.Titulo);
                 comandosql.Parameters.AddWithValue("@Texto", politica.Texto);
@@ -87,7 +87,12 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             }
             else
             {
-                Politica politica = modelo.ConverterParaPolitica();
+                comandosql = new SqlCommand(Queries.QUERY_DELETAR_ASSINATURAPOLITICA);
+                comandosql.Parameters.AddWithValue("Id", politica.Id);
+                Conexao.ExecutarQuery(comandosql);
+                Conexao._conexao.Close();
+
+            
                 comandosql = new SqlCommand(Queries.QUERY_ATUALIZAR_POLITICA);
                 comandosql.Parameters.AddWithValue("@Id", modelo.Id);
                 comandosql.Parameters.AddWithValue("@Titulo", politica.Titulo);

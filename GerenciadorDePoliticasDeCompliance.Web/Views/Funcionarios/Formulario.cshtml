@@ -3,49 +3,54 @@
     ViewData["Title"] = "Cadastro de Funcionário";
 }
 
+<section>
+    <section class="container-fluid col-xl-9 justify-content-center ">
+        <section class="form-container shadow-lg" class="col-12 col-sm-6 col-md-3">
+            <form class="form-horizontal" action="/funcionarios/cadastrar" method="post">
+                <fieldset>
+                    <legend>@ViewData["Title"]</legend>
+                    <div class="form-group">
+                        <label for="inputNome" class="col-lg-2 control-label">Nome</label>
+                        <div class="col-lg-12">
+                            <input type="text" required class="form-control" id="inputNome" name="Nome" placeholder="Nome completo">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCpf" class="col-lg-2 control-label">CPF</label>
+                        <div class="col-lg-12">
+                            <input type="text" required class="form-control" id="inputCpf" name="CPF" placeholder="XXX.XXX.XXX-XX">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMatricula" class="col-lg-2 control-label">Matrícula</label>
+                        <div class="col-lg-12">
+                            <input type="text" required class="form-control" id="inputMatricula" name="Matricula" placeholder="Matrícula">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                        <div class="col-lg-12">
+                            <input type="text" required class="form-control" id="inputEmail" name="Email" placeholder="ex: nome@email.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSenha" class="col-lg-2 control-label">Senha</label>
+                        <div class="col-lg-12">
+                            <input type="password" required class="form-control" id="inputSenha" name="Senha" placeholder="Digite sua senha">
+                        </div>
+                    </div>
 
-<form class="form-horizontal" action="/funcionarios/cadastrar" method="post">
-    <fieldset>
-        <legend>@ViewData["Title"]</legend>
-        <div class="form-group">
-            <label for="inputNome" class="col-lg-2 control-label">Nome</label>
-            <div class="col-lg-10">
-                <input type="text" required class="form-control" id="inputNome" name="Nome" placeholder="Nome completo">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputCpf" class="col-lg-2 control-label">CPF</label>
-            <div class="col-lg-10">
-                <input type="text" required class="form-control" id="inputCpf" name="CPF" placeholder="XXX.XXX.XXX-XX">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputMatricula" class="col-lg-2 control-label">Matrícula</label>
-            <div class="col-lg-10">
-                <input type="text" required class="form-control" id="inputMatricula" name="Matricula" placeholder="Matrícula">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputEmail" class="col-lg-2 control-label">Email</label>
-            <div class="col-lg-10">
-                <input type="text" required class="form-control" id="inputEmail" name="Email" placeholder="ex: nome@email.com">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputSenha" class="col-lg-2 control-label">Senha</label>
-            <div class="col-lg-10">
-                <input type="password" required class="form-control" id="inputSenha" name="Senha" placeholder="Digite sua senha">
-            </div>
-        </div>
-     
 
 
-        <div class="form-group">
-            <div class="col-lg-10 col-lg-offset-2">
-                <a asp-controller="Login" asp-action="Index" class="btn btn-default">Cancelar</a>
-             
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </div>
-        </div>
-    </fieldset>
-</form>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <a asp-controller="Login" asp-action="Index" class="btn btn-default">Cancelar</a>
+
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    </section>
+</section>

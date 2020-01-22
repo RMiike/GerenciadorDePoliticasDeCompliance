@@ -3,25 +3,41 @@
     ViewData["Title"] = "Wiz";
 }
 
-
 <br />
 <br />
-<div>
-    <form class="px-4 py-3" action="/login/acessar" id="formLogin" method="post">
-        <div class="form-group">
+<section>
+    <section class="row justify-content-center ">
+        <section class="form-container shadow-lg col-12 col-sm-6 col-md-3">
+            <legend class="text-center">Login</legend>
+            <div>
+                <form class="px-4 py-3" action="/login/acessar" id="formLogin" method="post">
 
-            <label for="exampleDropdownFormEmail1">Login</label>
-            <input type="email" class="form-control" required id="Email" name="Email" placeholder="email@example.com">
-        </div>
-        <div class="form-group">
-            <label for="exampleDropdownFormPassword1">Senha</label>
-            <input type="password" class="form-control" required id="Senha" name="Senha" placeholder="Senha">
-            @ViewData["UsuarioInvalido"]
-        </div>
-     
-        <input type="submit" class="btn btn-primary" value="acessar" />
-    </form>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="../Funcionarios/Formulario">Cadastre-se</a>
+                    <div class="form-group">
 
-</div>
+                        <label for="exampleDropdownFormEmail1">Usuário</label>
+                        <input type="email" class="form-control" required id="Email" name="Email" placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleDropdownFormPassword1">Senha</label>
+                        <input type="password" class="form-control" required id="Senha" name="Senha" placeholder="Senha">
+                        @if(ViewData["UsuarioInvalido"] != null)
+                        {
+                    <div class="alert alert-danger" role="alert">
+                        @ViewData["UsuarioInvalido"]
+                    </div>
+                        }
+
+
+
+                    </div>
+
+                    <input type="submit" class="btn btn-primary col-lg-12" value="Acessar" />
+                </form>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-center" href="../Funcionarios/Formulario">Cadastre-se</a>
+
+            </div>
+        </section>
+    </section>
+</section>
+

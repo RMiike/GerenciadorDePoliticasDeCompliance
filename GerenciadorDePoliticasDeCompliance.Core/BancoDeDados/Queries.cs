@@ -11,10 +11,13 @@
         public static string QUERY_LISTAR_ID_FUNCIONARIOS = "select top 1 * from Funcionario where id = @Id";
         public static string QUERY_LISTAR_ID_POLITICA = "select * from Politica where Id = @Id";
         public static string QUERY_DELETAR_POLITICA = "delete from Politica where Id = @Id";
+        public static string QUERY_DELETAR_ASSINATURAPOLITICA = "delete from AssinaturaPolitica where IdPolitica = @Id";
         public static string QUERY_AUTENTICAR_USUARIO = "select top 1 * from Usuario where Email = @Email";
         public static string QUERY_VERIFICAR_ID_FUNCIONARIO = "select top 1 * from Funcionario where IdUsuario = @IdUsuario";
         public static string QUERY_ASSINAR_POLITICA = "insert into AssinaturaPolitica (IdFuncionario, IdPolitica, Data) values (@IdFuncionario, @IdPolitica, @Data)";
         public static string QUERY_LISTAR_IDPOLITICA_ASSINANTES = "select * from AssinaturaPolitica where IdPolitica = @IdPolitica";
+        public static string QUERY_LISTAR_IDFUNCIONARIO_ASSINADOS = "select * from AssinaturaPolitica where IdFuncionario = @IdFuncionario";
+        public static string QUERY_LISTAR_IDPOLITICA_IDFUNCIONARIO = "select * from AssinaturaPolitica where IdPolitica = @IdPolitica and IdFuncionario = @IdFuncionario";
 
     }
 }
