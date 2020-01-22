@@ -6,14 +6,14 @@ namespace GerenciadorDePoliticasDeCompliance.Core.Dominio
         public Usuario(string email, string senha)
         {
             Email = email;
-            Senha = senha;
+            Senha = Criptografia.Criptografia.Encriptar(senha);
         }
 
         public Usuario(PerfilDeUsuario perfil, string email, string senha)
         {
             Perfil = perfil;
             Email = email;
-            Senha = senha;
+            Senha = Criptografia.Criptografia.Encriptar(senha);
         }
 
         public Usuario(int id, PerfilDeUsuario perfil, string email, string senha)
@@ -21,7 +21,7 @@ namespace GerenciadorDePoliticasDeCompliance.Core.Dominio
             Id = id;
             Perfil = perfil;
             Email = email;
-            Senha = senha;
+            Senha =  senha;
         }
 
         public int Id { get; set; }

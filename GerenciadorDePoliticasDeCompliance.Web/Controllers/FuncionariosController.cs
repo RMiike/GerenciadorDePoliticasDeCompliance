@@ -1,5 +1,6 @@
 ﻿using GerenciadorDePoliticasDeCompliance.Core.BancoDeDados;
 using GerenciadorDePoliticasDeCompliance.Core.Dominio;
+using GerenciadorDePoliticasDeCompliance.Core.Criptografia;
 using GerenciadorDePoliticasDeCompliance.Models.Funcionarios;
 using GerenciadorDePoliticasDeCompliance.Web.Models.Funcionarios;
 using Microsoft.AspNetCore.Authorization;
@@ -48,8 +49,10 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         [HttpPost]
         public IActionResult Cadastrar(FormularioViewModel modelo)
         {
+                    
             Funcionario funcionario = modelo.ConverterParaFuncionario();
             Usuario usuario = modelo.ConverterParaUsuario();
+
             var comandosql = new SqlCommand(Queries.QUERY_CADASTRO_USUARIO);
             comandosql.Parameters.AddWithValue("@Email", usuario.Email);
             comandosql.Parameters.AddWithValue("@Senha", usuario.Senha);

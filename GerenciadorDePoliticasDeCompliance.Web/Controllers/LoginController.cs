@@ -27,19 +27,20 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         [HttpPost]
         public async Task<IActionResult> Acessar(LoginViewModel modelo)
         {
+            Usuario usuariologin = modelo.ConverterParaUsuarioDeLogin();
             var comandosql = new SqlCommand(Queries.QUERY_AUTENTICAR_USUARIO);
-            comandosql.Parameters.AddWithValue("@Email", modelo.Email);
+            comandosql.Parameters.AddWithValue("@Email", usuariologin.Email);
             var dataReader = Conexao.Consultar(comandosql);
             if (dataReader.HasRows)
             {
-                comandosql.Parameters.AddWithValue("@Email", modelo.Email);
+                comandosql.Parameters.AddWithValue("@Email", usuariologin.Email);
                 dataReader.Read();
                 var id = int.Parse(dataReader["Id"].ToString());
                 var email = dataReader["Email"].ToString();
                 var senha = dataReader["Senha"].ToString();
                 var perfil = (PerfilDeUsuario)dataReader["IdPerfil"];
                 Usuario usuario = new Usuario(id, perfil, email, senha);
-                if (modelo.Senha == usuario.Senha)
+                if (usuariologin.Senha == usuario.Senha)
                 {
                     var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));

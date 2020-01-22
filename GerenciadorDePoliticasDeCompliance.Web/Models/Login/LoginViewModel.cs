@@ -12,6 +12,7 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Login
 
         [Required(ErrorMessage = "{0} Campo obrigatório!")]
         public string Senha { get; set; }
+        
         public Usuario ConverterParaUsuarioDeLogin()
         {
             Usuario usuario = new Usuario(Email, Senha);
