@@ -16,7 +16,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
         {
             Conexao = new Conexao();
         }
-
+        
         public IActionResult Index()
         {
             ListaViewModel lista = new ListaViewModel();

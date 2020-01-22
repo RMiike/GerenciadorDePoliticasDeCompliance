@@ -7,6 +7,8 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Login
     {
         public int Id { get; set; }
 
+        [EmailAddress(ErrorMessage = "Email inválido!")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "E-mail em formato inválido.")]
         [Required(ErrorMessage = "{0} Campo obrigatório!")]
         public string Email { get; set; }
 

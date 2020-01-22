@@ -13,7 +13,9 @@
                         <thead>
                             @if (Model.Politicas.Count() == 0)
                             {
-                                <h1>Não há políticas assinadas</h1>
+                            <div class="alert alert-danger text-center" role="alert">
+                                Não há políticas assinadas!
+                            </div>
                             }
                             else
                             {

@@ -17,6 +17,7 @@
         public static string QUERY_ASSINAR_POLITICA = "insert into AssinaturaPolitica (IdFuncionario, IdPolitica, Data) values (@IdFuncionario, @IdPolitica, @Data)";
         public static string QUERY_LISTAR_IDPOLITICA_ASSINANTES = "select * from AssinaturaPolitica where IdPolitica = @IdPolitica";
         public static string QUERY_LISTAR_IDFUNCIONARIO_ASSINADOS = "select * from AssinaturaPolitica where IdFuncionario = @IdFuncionario";
+        public static string QUERY_LISTAR_IDFUNCIONARIO_NAO_ASSINADOS = "select * from AssinaturaPolitica where IdFuncionario != @IdFuncionario";
         public static string QUERY_LISTAR_IDPOLITICA_IDFUNCIONARIO = "select * from AssinaturaPolitica where IdPolitica = @IdPolitica and IdFuncionario = @IdFuncionario";
 
     }

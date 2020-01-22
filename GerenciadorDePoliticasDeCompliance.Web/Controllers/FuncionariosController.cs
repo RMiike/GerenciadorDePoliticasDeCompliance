@@ -1,6 +1,5 @@
 ﻿using GerenciadorDePoliticasDeCompliance.Core.BancoDeDados;
 using GerenciadorDePoliticasDeCompliance.Core.Dominio;
-using GerenciadorDePoliticasDeCompliance.Core.Criptografia;
 using GerenciadorDePoliticasDeCompliance.Models.Funcionarios;
 using GerenciadorDePoliticasDeCompliance.Web.Models.Funcionarios;
 using Microsoft.AspNetCore.Authorization;

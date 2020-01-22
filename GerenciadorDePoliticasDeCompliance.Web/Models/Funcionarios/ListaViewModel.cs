@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GerenciadorDePoliticasDeCompliance.Web.Models.Funcionarios
 {
@@ -23,6 +24,10 @@ namespace GerenciadorDePoliticasDeCompliance.Web.Models.Funcionarios
         public string Nome { get; set; }
         public int CPF { get; set; }
         public int Matricula { get; set; }
+
+
+        [DataType(DataType.EmailAddress, ErrorMessage = "E-mail em formato inválido.")]
+        [EmailAddress(ErrorMessage = "Email inválido!")]
         public string Email { get; set; }
     }
 }

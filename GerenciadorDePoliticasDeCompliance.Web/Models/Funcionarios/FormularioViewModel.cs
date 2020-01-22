@@ -19,6 +19,7 @@ namespace GerenciadorDePoliticasDeCompliance.Models.Funcionarios
         public int  Matricula { get; set; }
         
         [Required(ErrorMessage = "{0} Campo obrigatório!")]
+        [EmailAddress(ErrorMessage = "Email inválido!")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "{0} Campo obrigatório!")]
