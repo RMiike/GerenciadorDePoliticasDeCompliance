@@ -36,8 +36,7 @@ Para realizar as pesquisas no banco de dados, eu optei mais uma vez realizar de 
 
 Dessa forma, criei uma class "Conexao" com diversos métodos  responsáveis por realizar todos os procedimentos de conexão, pesquisa, desconectar, e execução de queries.
 
-
-
+Por fim, para organizar o front-end, utilizarei tags de html combinadas com bootstrap nas views.
 
 # Tecnologias
 
@@ -50,5 +49,3 @@ Dessa forma, criei uma class "Conexao" com diversos métodos  responsáveis por 
 ## Banco de Dados
 
 * Sql-Server
-
-# Referências 
