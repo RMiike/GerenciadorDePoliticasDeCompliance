@@ -30,7 +30,7 @@ Esse request http irá passar pelo servidor web para servidores Internet Informa
 Dessa forma o request será encaminhado para a controler, responsável por controlar o comando de pesquisa das políticas. Após isso, a controler irá encaminhar para o model, que irá fazer a requisição no banco.
 Os dados pesquisados irão voltar para a controler que irão ser encaminhados para a view, que irá mandar de volta para o servidor ISS e encaminhar para a tela do usuário a lista das políticas. 
 
-<img src="  https://raw.githubusercontent.com/RMiike/GerenciadorDePoliticasDeCompliance/master/assets/img.003.JPG">
+<img src="https://raw.githubusercontent.com/RMiike/GerenciadorDePoliticasDeCompliance/master/assets/img.003.JPG">
 
 Para realizar as pesquisas no banco de dados, eu optei mais uma vez realizar de uma forma que incitasse o meu aprendizado e o meu esforço, escolhendo as pesquisas sem procedure, de forma que eu mesmo irei digitar as queries para treinar e entender melhor o sistema. 
 
