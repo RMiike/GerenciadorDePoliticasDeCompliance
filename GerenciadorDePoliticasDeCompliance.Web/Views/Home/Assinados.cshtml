@@ -33,7 +33,9 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelitem => item.Titulo)
+                                            <a href="/Home/Detalhes/@item.Id">
+                                                @Html.DisplayFor(modelitem => item.Titulo)
+                                            </a>
 
                                         </td>
                                         <td class="text-center">

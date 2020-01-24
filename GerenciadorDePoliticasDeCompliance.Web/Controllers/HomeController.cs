@@ -165,7 +165,8 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             dataRead = Conexao.Consultar(comandosql);
             if (dataRead.HasRows)
             {
-                ViewData["Assinada"] = "Política já se encontra assinada";
+                TempData["PoliticaAssinada"] = "Política já se encontra assinada!";
+                return RedirectToAction("Detalhes", "Home", new { id = id });
             }
             else
             {
@@ -175,9 +176,12 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
                 comandosql.Parameters.AddWithValue("@IdFuncionario", idfuncionario);
                 comandosql.Parameters.AddWithValue("@Data", DateTime.Now);
                 Conexao.ExecutarQuery(comandosql);
+
+
+                TempData["PoliticaAssinadaSucesso"] = "Política assinada com sucesso!";
+
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("Detalhes", "Home", new { id = id });
         }
 
 

@@ -66,6 +66,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
                 comandosql.Parameters.AddWithValue("@Titulo", politica.Titulo);
                 comandosql.Parameters.AddWithValue("@Texto", politica.Texto);
                 comandosql.Parameters.AddWithValue("@Data", DateTime.Now);
+                TempData["PoliticaAdicionada"] = "Política adicionada com sucesso!";
             }
             else
             {
@@ -78,6 +79,7 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
                 comandosql.Parameters.AddWithValue("@Titulo", politica.Titulo);
                 comandosql.Parameters.AddWithValue("@Texto", politica.Texto);
                 comandosql.Parameters.AddWithValue("@Data", DateTime.Now);
+                TempData["PoliticaEditada"] = "Política editada com sucesso!";
             }
             Conexao.ExecutarQuery(comandosql);
             return RedirectToAction("Index");

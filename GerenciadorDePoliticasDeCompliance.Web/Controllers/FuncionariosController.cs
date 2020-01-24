@@ -64,6 +64,8 @@ namespace GerenciadorDePoliticasDeCompliance.Controllers
             comandosql.Parameters.AddWithValue("@Email", funcionario.Email);
             comandosql.Parameters.AddWithValue("@IdUsuario", idusuario);
             Conexao.ExecutarQuery(comandosql);
+            TempData["CadastroRealizadoComSUcesso"] = "Cadastrado com sucesso!";
+
             return RedirectToAction("Index", "Login");
         }
 

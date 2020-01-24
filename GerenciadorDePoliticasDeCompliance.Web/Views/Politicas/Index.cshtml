@@ -7,6 +7,25 @@
         <section class="form-container shadow-lg" class="col-12 col-sm-6 col-md-3 " style="border-radius:6px">
             <h1 class="text-center  mb-4">@ViewData["Title"]</h1>
             <div>
+
+                @{
+                    if (TempData["PoliticaAdicionada"] != null)
+                    {
+                        <div class="alert alert-success text-center col-md-12" role="alert">
+                            @TempData["PoliticaAdicionada"]
+                        </div>
+                    }
+                }
+                @{
+                    if (TempData["PoliticaEditada"] != null)
+                    {
+                        <div class="alert alert-success text-center col-md-12" role="alert">
+                            @TempData["PoliticaEditada"]
+                        </div>
+                    }
+                }
+
+             
                 <table class="table table-striped table-hover ">
                     <thead>
                         @if (Model.Politicas.Count() == 0)

@@ -3,6 +3,7 @@
     ViewData["Title"] = "Wiz";
 }
 <section>
+
     <section class="row justify-content-center ">
         <section class="form-container shadow-lg col-12 col-sm-6 col-md-3" style="border-radius:6px">
             <figure class="  mt-4 text-center ">
@@ -23,6 +24,24 @@
                 </form>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-center mb-4" href="../Funcionarios/Formulario">Cadastre-se</a>
+                @{
+                    if (TempData["CadastroRealizadoComSUcesso"] != null)
+                    {
+                        <div class="alert alert-success text-center col-md-12" role="alert">
+                            @TempData["CadastroRealizadoComSUcesso"]
+                        </div>
+                    }
+                }
+                @{
+
+                    if (TempData["CadastroRealizadoComSUcesso"] != null)
+                    {
+                        <div class="alert alert-success text-center col-md-12" role="alert">
+                            Cadastrado com sucesso!
+                        </div>
+                    }
+
+                }
             </div>
             @if (ViewData["UsuarioInvalido"] != null)
             {
@@ -35,7 +54,7 @@
 
 </section>
 
-<div class="alert alert-danger mt-4 align-content-center d-flex"  role="alert">
+<div class="alert alert-danger mt-4 align-content-center d-flex" role="alert">
     <small>
         Usuario Administrador: admin@admin.com
         Senha: 12345678

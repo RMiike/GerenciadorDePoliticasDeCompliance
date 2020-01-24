@@ -9,7 +9,16 @@
                     <div class="container">
                         <article>
                             <input type="hidden" value="@item.Id" />
+                            @{
 
+                                if (TempData["PoliticaAssinada"] != null)
+                                {
+                                    <div class="alert alert-success text-center col-md-12" role="alert">
+                                        @TempData["PoliticaAssinada"]
+                                    </div>
+                                }
+
+                            }
                             <div class="title_tratamento">
                                 <h2 class="text-center mb-4">
                                     @Html.DisplayFor(modelitem => item.Titulo)

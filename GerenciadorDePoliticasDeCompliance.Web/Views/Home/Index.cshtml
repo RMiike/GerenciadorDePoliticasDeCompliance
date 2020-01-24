@@ -1,14 +1,25 @@
 ﻿@model GerenciadorDePoliticasDeCompliance.Web.Models.Politicas.ListaViewModel;
 
 @{
-    ViewData["Title"] = "Políticas de Compiance da Wiz";
+    ViewData["Title"] = "Políticas de Compiance";
 }
 <section>
     <section class="container-fluid col-xl-9 justify-content-center h-100 ">
         <section class="form-container shadow-lg" class="col-12 col-sm-6 col-md-3 mb-4" style="border-radius:6px">
+          
             <h1 class="text-center mb-4">@ViewData["Title"]</h1>
             <div>
                 <div>
+                    @{
+
+                        if (TempData["PoliticaAssinadaSucesso"] != null)
+                        {
+                            <div class="alert alert-success text-center col-md-12" role="alert">
+                                @TempData["PoliticaAssinadaSucesso"]
+                            </div>
+                        }
+
+                    }
                     <table class="table table-striped table-hover">
                         <thead>
                             @if (Model.Politicas.Count() == 0)
@@ -55,3 +66,4 @@
         </section>
     </section>
 </section>  
+
