@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Confirmacao";
+}
+@{
+
+    if (TempData["CadastroRealizadoComSUcesso"] != null)
+    {
+        <div class="alert alert-success text-center col-md-12" role="alert">
+            Cadastrado com sucesso!
+        </div>
+    }
+
+    if (TempData["EsqueciSenha"] != null)
+    {
+        <div class="alert alert-success text-center col-md-12" role="alert">
+            <h4>Caso você tenha uma conta cadastrada conosco, nos enviamos um email com as instruções para resetar a senha. </h4>
+        </div>
+    }
+}

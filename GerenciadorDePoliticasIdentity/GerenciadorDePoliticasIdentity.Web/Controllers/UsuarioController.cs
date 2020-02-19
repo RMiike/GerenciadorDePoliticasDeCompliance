@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using GerenciadorDePoliticasIdentity.Core.Dominio;
 using GerenciadorDePoliticasIdentity.Web.Models;
+using GerenciadorDePoliticasIdentity.Web.Models.UsuarioModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -48,8 +49,8 @@ namespace GerenciadorDePoliticasIdentity.Web.Controllers
                     var resultado = await _gerenciadorUsuario.CreateAsync(usuario, modelo.SenhaHash);
                     if (resultado.Succeeded)
                     {
-
-                        return View("Login");
+                        TempData["CadastroRealizadoComSUcesso"] = "Cadastrado com sucesso!";
+                        return View("Confirmacao");
                     }
                     else
                     {
@@ -95,5 +96,44 @@ namespace GerenciadorDePoliticasIdentity.Web.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        public IActionResult EsqueciSenha()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> EsqueciSenha(EsqueciSenhaViewModel modelo)
+        {
+            if (ModelState.IsValid)
+            {
+                var usuario = await _gerenciadorUsuario.FindByEmailAsync(modelo.Email);
+                if(usuario != null)
+                {
+                    var token = await _gerenciadorUsuario.GeneratePasswordResetTokenAsync(usuario);
+                    var urlReset = Url.Action("ResetarSenha", "Usuario", new { token = token, email = modelo.Email }, Request.Scheme);
+
+                    System.IO.File.WriteAllText("linkDeReset.txt", urlReset);
+
+                    TempData["EsqueciSenha"] = "Email enviado";
+                    return View("Confirmacao");
+                }
+                TempData["EsqueciSenha"] = "Email enviado";
+                return View("Confirmacao");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetarSenha()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetarSenha(ResetarSenhaViewModel modelo)
+        {
+            return View();
+        }
+
     }
 }

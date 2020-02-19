@@ -12,10 +12,6 @@
     <ProjectReference Include="..\GerenciadorDePoliticasIdentity.Core\GerenciadorDePoliticasIdentity.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\UsuarioModels\" />
-  </ItemGroup>
-
 
 
 </Project>

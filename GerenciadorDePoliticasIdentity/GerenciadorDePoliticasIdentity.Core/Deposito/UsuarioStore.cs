@@ -8,10 +8,18 @@ using System.Threading.Tasks;
 
 namespace GerenciadorDePoliticasIdentity.Core.Deposito
 {
-    public class UsuarioStore : IUserStore<Usuario>, IUserPasswordStore<Usuario>
+    public class UsuarioStore :
+        IUserStore<Usuario>,
+        IUserPasswordStore<Usuario>,
+        IUserEmailStore<Usuario>,
+        IUserTwoFactorStore<Usuario>,
+          IUserPhoneNumberStore<Usuario>,
+        IUserAuthenticatorKeyStore<Usuario>,
+        IUserSecurityStampStore<Usuario>
+
     {
 
-       
+
 
         public void Dispose()
         {
@@ -140,6 +148,108 @@ namespace GerenciadorDePoliticasIdentity.Core.Deposito
                     });
             }
             return IdentityResult.Success;
+        }
+
+        public Task SetEmailAsync(Usuario user, string email, CancellationToken cancellationToken)
+        {
+            user.Email = email;
+            return Task.CompletedTask;
+        }
+
+        public Task<string> GetEmailAsync(Usuario user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.Email);
+        }
+
+        public Task<bool> GetEmailConfirmedAsync(Usuario user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<bool>(user.ConfirmadoEmail);
+        }
+
+        public Task SetEmailConfirmedAsync(Usuario user, bool confirmed, CancellationToken cancellationToken)
+        {
+            user.ConfirmadoEmail = confirmed;
+            return Task.CompletedTask;
+        }
+
+        public async Task<Usuario> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+        {
+            using (var conectar = Conexao.AbrirConexao())
+            {
+                return await conectar.QueryFirstOrDefaultAsync<Usuario>(
+                    "select * from Usuarios where Email = @Email",
+                    new
+                    {
+                        Email = normalizedEmail
+                    });
+            }
+        }
+
+        public Task<string> GetNormalizedEmailAsync(Usuario user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.EmailNormalizado);
+        }
+
+        public Task SetNormalizedEmailAsync(Usuario user, string normalizedEmail, CancellationToken cancellationToken)
+        {
+            user.EmailNormalizado = normalizedEmail;
+            return Task.CompletedTask;
+        }
+
+        public Task SetTwoFactorEnabledAsync(Usuario user, bool enabled, CancellationToken cancellationToken)
+        {
+            user.DoisFatoresDeAutenticacao = enabled;
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> GetTwoFactorEnabledAsync(Usuario user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<bool>(user.DoisFatoresDeAutenticacao);
+        }
+
+        public Task SetSecurityStampAsync(Usuario user, string stamp, CancellationToken cancellationToken)
+        {
+            user.CarimboDeSeguranca = stamp;
+            return Task.CompletedTask;
+
+        }
+
+        public Task<string> GetSecurityStampAsync(Usuario user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.CarimboDeSeguranca);
+        }
+
+        public Task SetAuthenticatorKeyAsync(Usuario user, string key, CancellationToken cancellationToken)
+        {
+            user.Email = key;
+            return Task.CompletedTask;
+        }
+
+        public Task<string> GetAuthenticatorKeyAsync(Usuario user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.Email);
+        }
+
+        public Task SetPhoneNumberAsync(Usuario user, string phoneNumber, CancellationToken cancellationToken)
+        {
+            user.Telefone = phoneNumber;
+            return Task.CompletedTask;
+        }
+
+        public Task<string> GetPhoneNumberAsync(Usuario user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.Telefone);
+        }
+
+        public Task<bool> GetPhoneNumberConfirmedAsync(Usuario user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<bool>(user.ConfirmadoTelefone);
+        }
+
+        public Task SetPhoneNumberConfirmedAsync(Usuario user, bool confirmed, CancellationToken cancellationToken)
+        {
+            user.ConfirmadoTelefone = confirmed;
+            return Task.CompletedTask;
         }
     }
 }

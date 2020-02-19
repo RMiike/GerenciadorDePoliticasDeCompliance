@@ -50,7 +50,15 @@ namespace GerenciadorDePoliticasIdentity.Web
             //    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
             //});
 
-            services.AddIdentityCore<Usuario>(options => { });
+            services.AddIdentityCore<Usuario>(options =>
+            {
+                options.SignIn.RequireConfirmedEmail = true;
+                options.Lockout.MaxFailedAccessAttempts = 3;
+            }).AddDefaultTokenProviders();
+
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+              options.TokenLifespan = TimeSpan.FromHours(3));
+
             services.AddScoped<IUserStore<Usuario>, UsuarioStore>();
         }
 
@@ -70,7 +78,7 @@ namespace GerenciadorDePoliticasIdentity.Web
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-      
+
             app.UseRouting();
 
             app.UseAuthorization();
