@@ -34,27 +34,39 @@ namespace GerenciadorDePoliticasIdentity.Web
                 options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             })
-            .AddCookie(IdentityConstants.ExternalScheme, options =>
-            {
-                options.LoginPath = "/Usuario/Login";
-                options.LogoutPath = "/Home/Index";
-            })
+
             .AddCookie(IdentityConstants.ApplicationScheme, options =>
             {
                 options.LoginPath = "/Usuario/Login";
-                options.LogoutPath = "/Home/Index";
+                options.LogoutPath = "/Usuario/logout";
+            })
+            .AddCookie(IdentityConstants.ExternalScheme, options =>
+            {
+                options.Cookie.Name = IdentityConstants.ExternalScheme;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+            })
+            .AddCookie(IdentityConstants.TwoFactorRememberMeScheme, options =>
+            {
+                options.Cookie.Name = IdentityConstants.TwoFactorRememberMeScheme;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.LoginPath = "/Home/Login";
+                options.LogoutPath = "/home/logout";
+            })
+            .AddCookie(IdentityConstants.TwoFactorUserIdScheme, options =>
+            {
+                options.Cookie.Name = "primeira";
+                options.Cookie.Name = "segunda";
             });
-            //.AddCookie(IdentityConstants.ExternalScheme, options =>
-            //{
-            //    options.Cookie.Name = IdentityConstants.ExternalScheme;
-            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-            //});
+
+
 
             services.AddIdentityCore<Usuario>(options =>
             {
                 options.SignIn.RequireConfirmedEmail = true;
                 options.Lockout.MaxFailedAccessAttempts = 3;
             }).AddDefaultTokenProviders();
+
+      
 
             services.Configure<DataProtectionTokenProviderOptions>(options =>
               options.TokenLifespan = TimeSpan.FromHours(3));

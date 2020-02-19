@@ -7,7 +7,7 @@
     if (TempData["CadastroRealizadoComSUcesso"] != null)
     {
         <div class="alert alert-success text-center col-md-12" role="alert">
-            Cadastrado com sucesso!
+            Para concluir o cadastro, enviamos um email de confirmação para você!
         </div>
     }
 
@@ -17,4 +17,19 @@
             <h4>Caso você tenha uma conta cadastrada conosco, nos enviamos um email com as instruções para resetar a senha. </h4>
         </div>
     }
+
+    if (TempData["ResetarSenha"] != null)
+    {
+        <div class="alert alert-success text-center col-md-12" role="alert">
+            <h4>Senha resetada com sucesso. </h4>
+        </div>
+    }
+    if ( TempData["ConfirmacaoEMail"] != null)
+    {
+        <div class="alert alert-success text-center col-md-12" role="alert">
+            <h4>Email confirmado com sucesso. </h4>
+        </div>
+    }
+   
+
 }

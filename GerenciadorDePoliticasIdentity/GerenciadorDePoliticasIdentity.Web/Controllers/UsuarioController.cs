@@ -19,7 +19,16 @@ namespace GerenciadorDePoliticasIdentity.Web.Controllers
         {
             _gerenciadorUsuario = gerenciadorUsuario;
         }
-        [HttpGet]
+        public ClaimsPrincipal S2FA(string userId, string provides)
+        {
+            var identidade = new ClaimsIdentity(new List<Claim>
+            {
+                 new Claim ("primeiro", userId),
+                 new Claim ("segundo", provides)
+            }, IdentityConstants.TwoFactorUserIdScheme);
+            return new ClaimsPrincipal(identidade);
+        }
+        [HttpGet]   
         public IActionResult Index()
         {
             return View();
@@ -46,7 +55,14 @@ namespace GerenciadorDePoliticasIdentity.Web.Controllers
                         Perfil = Perfil.Funcionario,
                         DoisFatoresDeAutenticacao = modelo.DoisFatoresDeAutenticacao
                     };
+
                     var resultado = await _gerenciadorUsuario.CreateAsync(usuario, modelo.SenhaHash);
+                    if (resultado.Succeeded)
+                    {
+                        var token = await _gerenciadorUsuario.GenerateEmailConfirmationTokenAsync(usuario);
+                        var confirmacao = Url.Action("ConfirmarEmail", "Usuario", new { Token = token, Email = usuario.Email }, Request.Scheme);
+                        System.IO.File.WriteAllText("ConfirmarEmail.Txt", "Clique no lique para confirmar o email " + confirmacao);
+                    }
                     if (resultado.Succeeded)
                     {
                         TempData["CadastroRealizadoComSUcesso"] = "Cadastrado com sucesso!";
@@ -77,26 +93,52 @@ namespace GerenciadorDePoliticasIdentity.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var usuario = await _gerenciadorUsuario.FindByNameAsync(modelo.Email);
-
+                var usuario = await _gerenciadorUsuario.FindByEmailAsync(modelo.Email);
                 if (usuario != null && await _gerenciadorUsuario.CheckPasswordAsync(usuario, modelo.SenhaHash))
                 {
-                    var identidade = new ClaimsIdentity(IdentityConstants.ApplicationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                    identidade.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id));
-                    identidade.AddClaim(new Claim(ClaimTypes.Name, usuario.Email));
-                    identidade.AddClaim(new Claim(ClaimTypes.Role, usuario.Perfil == Perfil.Administrador ? "Administrador" : "Funcionario"));
+                    if (!await _gerenciadorUsuario.IsEmailConfirmedAsync(usuario))
+                    {
+                        ModelState.AddModelError("", "Email não confirmado!!");
+                        return View();
+                    }
 
-                    await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identidade), new AuthenticationProperties { IsPersistent = false });
+                    if (await _gerenciadorUsuario.GetTwoFactorEnabledAsync(usuario))
+                    {
+                        var validar = await _gerenciadorUsuario.GetValidTwoFactorProvidersAsync(usuario);
+                        if (validar.Contains("Email"))
+                        {
+                            var token = await _gerenciadorUsuario.GenerateTwoFactorTokenAsync(usuario, "Email");
+                            System.IO.File.WriteAllText("email2f.txt", token);
+                            await HttpContext.SignInAsync(IdentityConstants.TwoFactorUserIdScheme, S2FA(usuario.Id, "Email"));
+                            return RedirectToAction("DoisFatores");
+                        }
+                    }
+                    else
+                    {
 
-                    return RedirectToAction("Index", "Politica");
+                        var identidade = new ClaimsIdentity(IdentityConstants.ApplicationScheme, ClaimTypes.Name, ClaimTypes.Role);
+                        identidade.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id));
+                        identidade.AddClaim((new Claim(ClaimTypes.Name, usuario.Email)));
+                        identidade.AddClaim(new Claim(ClaimTypes.Role, usuario.Perfil == Perfil.Administrador ? "Administrador" : "Comum"));
+
+                        await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identidade), new AuthenticationProperties { IsPersistent = false });
+
+
+                        return View("Index");
+                    }
                 }
-                {
-                    ModelState.AddModelError("", "Usuário ou senha inválidos.");
-                }
+                ModelState.AddModelError("", "Usuário ou Senha Invalida");
             }
             return View();
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return RedirectToAction("Index", "Home");
+        }
         [HttpGet]
         public IActionResult EsqueciSenha()
         {
@@ -108,12 +150,12 @@ namespace GerenciadorDePoliticasIdentity.Web.Controllers
             if (ModelState.IsValid)
             {
                 var usuario = await _gerenciadorUsuario.FindByEmailAsync(modelo.Email);
-                if(usuario != null)
+                if (usuario != null)
                 {
                     var token = await _gerenciadorUsuario.GeneratePasswordResetTokenAsync(usuario);
                     var urlReset = Url.Action("ResetarSenha", "Usuario", new { token = token, email = modelo.Email }, Request.Scheme);
 
-                    System.IO.File.WriteAllText("linkDeReset.txt", urlReset);
+                    System.IO.File.WriteAllText("linkDeReset.txt", "Clique no link para resetar a senha " + urlReset);
 
                     TempData["EsqueciSenha"] = "Email enviado";
                     return View("Confirmacao");
@@ -125,15 +167,96 @@ namespace GerenciadorDePoliticasIdentity.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResetarSenha()
+        public IActionResult ResetarSenha(string token, string email)
         {
-            return View();
+            return View(new ResetarSenhaViewModel { Token = token, Email = email });
         }
         [HttpPost]
         public async Task<IActionResult> ResetarSenha(ResetarSenhaViewModel modelo)
         {
+            if (ModelState.IsValid)
+            {
+                var usuario = await _gerenciadorUsuario.FindByEmailAsync(modelo.Email);
+
+                if (usuario != null)
+                {
+                    var resultado = await _gerenciadorUsuario.ResetPasswordAsync(usuario, modelo.Token, modelo.Senha);
+                    if (!resultado.Succeeded)
+                    {
+                        foreach (var error in resultado.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                        return View();
+                    }
+                    TempData["ResetarSenha"] = "SenhaResetada";
+                    return View("Confirmacao");
+                }
+            }
             return View();
         }
 
+
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmarEmail(string token, string email)
+        {
+            var usuario = await _gerenciadorUsuario.FindByEmailAsync(email);
+            if (usuario != null)
+            {
+                var resultado = await _gerenciadorUsuario.ConfirmEmailAsync(usuario, token);
+
+                if (resultado.Succeeded)
+                {
+                    TempData["ConfirmacaoEMail"] = "Email confirmado.";
+                    return View("Confirmacao");
+                }
+
+            }
+            return View();
+
+        }
+
+        [HttpGet]
+        public IActionResult DoisFatores()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> DoisFatores(DoisFatoresViewModel modelo)
+        {
+            var resultado = await HttpContext.AuthenticateAsync(IdentityConstants.TwoFactorUserIdScheme);
+            if (!resultado.Succeeded)
+            {
+                ModelState.AddModelError("", "Seu token expirou.");
+                return View();
+            }
+            if (ModelState.IsValid)
+            {
+                var usuario = await _gerenciadorUsuario.FindByIdAsync(resultado.Principal.FindFirstValue("primeiro"));
+                if(usuario != null)
+                {
+                    var valido = await _gerenciadorUsuario.VerifyTwoFactorTokenAsync(usuario, resultado.Principal.FindFirstValue("segundo"), modelo.Token);
+                    if (valido)
+                    {
+                        await HttpContext.SignOutAsync(IdentityConstants.TwoFactorUserIdScheme);
+
+                        var identidade = new ClaimsIdentity(IdentityConstants.TwoFactorUserIdScheme, ClaimTypes.Name, ClaimTypes.Role);
+                        identidade.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id));
+                        identidade.AddClaim(new Claim(ClaimTypes.Name, usuario.Email));
+                        identidade.AddClaim(new Claim(ClaimTypes.Role, usuario.Perfil == Perfil.Administrador ? "Administrador" : "Funcionario"));
+
+                        await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identidade), new AuthenticationProperties { IsPersistent = true });
+
+                        return RedirectToAction("Index", "Politica");
+
+                    }
+                    ModelState.AddModelError("", "Token Inválido");
+                    return View();
+                }
+                ModelState.AddModelError("", "Inválido");
+            }
+            return View();
+        }
     }
 }
