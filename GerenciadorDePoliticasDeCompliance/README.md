@@ -1,3 +1,7 @@
+# Url 
+
+https://teste-wiz-renato.azurewebsites.net/
+
 # GerenciadorDePoliticasDeCompliance
 
 A proposta apresentada poderia ser solucionada de forma rápida e dinâmica por meio do Entity FrameWork, que permite ao desenvolvedor a realização de um trabalho sem muita preocupação em relação a tabelas de bancos de dados, uma vez que esse conjunto de tecnologias permite ao programador um trabalho em alto nível de abstração.
