@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GerenciadorDePoliticasIdentity.Core.Data;
 using GerenciadorDePoliticasIdentity.Core.Dominio;
 using GerenciadorDePoliticasIdentity.Web.Models;
 using GerenciadorDePoliticasIdentity.Web.Models.UsuarioModels;
@@ -15,9 +16,14 @@ namespace GerenciadorDePoliticasIdentity.Web.Controllers
     public class UsuarioController : Controller
     {
         private readonly UserManager<Usuario> _gerenciadorUsuario;
-        public UsuarioController(UserManager<Usuario> gerenciadorUsuario)
+        private readonly ServicoPessoa _servicoPessoa;
+
+        public UsuarioController(
+            UserManager<Usuario> gerenciadorUsuario,
+            ServicoPessoa  servicoPessoa)
         {
             _gerenciadorUsuario = gerenciadorUsuario;
+            _servicoPessoa = servicoPessoa;
         }
         public ClaimsPrincipal S2FA(string userId, string provides)
         {
@@ -56,7 +62,17 @@ namespace GerenciadorDePoliticasIdentity.Web.Controllers
                         DoisFatoresDeAutenticacao = modelo.DoisFatoresDeAutenticacao
                     };
 
+                    var pessoa = new Pessoas
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Nome = modelo.Nome,
+                        CPF = modelo.CPF,
+                        IdUsuario = usuario.Id
+                    };
+
                     var resultado = await _gerenciadorUsuario.CreateAsync(usuario, modelo.SenhaHash);
+                    _servicoPessoa.Inserir(pessoa);
+
                     if (resultado.Succeeded)
                     {
                         var token = await _gerenciadorUsuario.GenerateEmailConfirmationTokenAsync(usuario);

@@ -1,6 +1,6 @@
 ﻿namespace GerenciadorDePoliticasIdentity.Core.Dominio
 {
-    public class Pessoa
+    public class Pessoas
     {
         public string Id { get; set; }
         public string Nome { get; set; }

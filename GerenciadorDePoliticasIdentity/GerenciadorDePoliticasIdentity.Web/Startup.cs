@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GerenciadorDePoliticasIdentity.Core.Data;
 using GerenciadorDePoliticasIdentity.Core.Deposito;
 using GerenciadorDePoliticasIdentity.Core.Dominio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -59,6 +61,8 @@ namespace GerenciadorDePoliticasIdentity.Web
             });
 
 
+            services.AddDbContext<Contexto>(options =>
+                           options.UseSqlServer(Configuration.GetConnectionString("Contexto"), builder => builder.MigrationsAssembly("GerenciadorDePoliticasIdentity.Web")));
 
             services.AddIdentityCore<Usuario>(options =>
             {
@@ -71,6 +75,7 @@ namespace GerenciadorDePoliticasIdentity.Web
             services.Configure<DataProtectionTokenProviderOptions>(options =>
               options.TokenLifespan = TimeSpan.FromHours(3));
 
+            services.AddScoped<ServicoPessoa>();
             services.AddScoped<IUserStore<Usuario>, UsuarioStore>();
         }
 
